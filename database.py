@@ -1,24 +1,24 @@
-# database.py
-
+import os # Importar 'os'
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from dotenv import load_dotenv # Importar 'load_dotenv'
 
-# 1. Define a string de conexão com o banco PostgreSQL.
-#    Formato: "postgresql://<user>:<password>@<host>/<dbname>"
-#    Substitua com suas credenciais. É uma boa prática usar variáveis de ambiente aqui.
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:password@localhost/progwebIII"
+load_dotenv() # Carregar as variáveis do .env
 
-# 2. Cria a "engine" do SQLAlchemy, que é o ponto de entrada para o banco de dados.
-#    Ela gerencia as conexões com o banco.
+# 1. Ler a URL do banco a partir das variáveis de ambiente
+SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
+
+if SQLALCHEMY_DATABASE_URL is None:
+    raise ValueError("DATABASE_URL não foi definida no arquivo .env")
+
+# 2. Cria a "engine" do SQLAlchemy
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
-# 3. Cria uma fábrica de sessões (SessionLocal). Cada instância de SessionLocal
-#    será uma sessão com o banco de dados. Pense nela como uma "conversa" temporária.
+# 3. Cria uma fábrica de sessões (SessionLocal)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# 4. Cria uma classe Base. Nossos modelos de tabela do SQLAlchemy herdarão desta
-#    classe para que o ORM possa gerenciá-los.
+# 4. Cria uma classe Base
 Base = declarative_base()
 
 def get_db():

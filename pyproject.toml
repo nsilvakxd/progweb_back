@@ -15,8 +15,14 @@ sqlalchemy = "^2.0.43"
 psycopg2-binary = "^2.9.10"
 python-multipart = "^0.0.20"
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
-python-jose = "^3.5.0"
-bcrypt = "^4.0.1"
+python-jose = {extras = ["cryptography"], version = "^3.5.0"}
+bcrypt = "==4.0.1"
+requests = "^2.32.5"
+pydantic = {extras = ["email"], version = "^2.12.3"}
+python-dotenv = "^1.1.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.2"
 
 [build-system]
 requires = ["poetry-core>=2.0.0"]
