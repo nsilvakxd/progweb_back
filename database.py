@@ -6,13 +6,21 @@ from dotenv import load_dotenv # Importar 'load_dotenv'
 
 load_dotenv() # Carregar as variáveis do .env
 
-# 1. Ler a URL do banco a partir das variáveis de ambiente
-SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
+# 1. Determinar se está em produção ou desenvolvimento
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
 
-if SQLALCHEMY_DATABASE_URL is None:
-    raise ValueError("DATABASE_URL não foi definida no arquivo .env")
+# 2. Configurar a URL do banco de dados baseado no ambiente
+if ENVIRONMENT == "production":
+    # URL do banco de dados de produção no Render
+    SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
+else:
+    # URL do banco de dados local (desenvolvimento)
+    SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
+    
+    if SQLALCHEMY_DATABASE_URL is None:
+        raise ValueError("DATABASE_URL não foi definida no arquivo .env para desenvolvimento")
 
-# 2. Cria a "engine" do SQLAlchemy
+# 3. Cria a "engine" do SQLAlchemy
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
 # 3. Cria uma fábrica de sessões (SessionLocal)
