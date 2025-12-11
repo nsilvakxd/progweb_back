@@ -23,8 +23,7 @@ app = FastAPI(title="API de Gestão de Gastos", version="0.2.0")
 origins = [
     "http://localhost",
     "http://localhost:8000",
-    "https://app-front-vakinha.onrender.com",  # URL do front-end em produção
-    "*", 
+    "https://app-front-vakinha.onrender.com",  # URL do front-end em produção 
 ]
 
 app.add_middleware(
